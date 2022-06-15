@@ -21,13 +21,13 @@ namespace Reflection
 
 
 
-            foreach (var customerProperty in student1Properties)
+            foreach (var student1prop in student1Properties)
             {
-                foreach (var employeeProperty in student2Properties)
+                foreach (var student2prop in student2Properties)
                 {
-                    if (customerProperty.Name == employeeProperty.Name && customerProperty.PropertyType.Name == employeeProperty.PropertyType.Name)
+                    if (student1prop.Name == student2prop.Name && student1prop.PropertyType.Name == student2prop.PropertyType.Name)
                     {
-                        employeeProperty.SetValue(student2, customerProperty.GetValue(student1));
+                        student2prop.SetValue(student2, student1prop.GetValue(student1));
                         break;
                     }
                 }
