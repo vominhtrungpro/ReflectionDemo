@@ -8,18 +8,14 @@ namespace Reflection
             Student1 student1 = new Student1();
 
             Student2 student2 = new Student2();
-
-            Type student1Type = typeof(Student1);
-
-            PropertyInfo[] student1Properties = student1Type.GetProperties();
-
-            Type student2Type = typeof(Student2);
-
-            PropertyInfo[] student2Properties = student2Type.GetProperties();
-
-
-
-
+            //gọi type của student1
+            var student1Type = typeof(Student1);
+            //gọi các properties của student 1
+            var student1Properties = student1Type.GetProperties();
+            //gọi type của student 2
+            var student2Type = typeof(Student2);
+            //gọi properties của student 2
+            var student2Properties = student2Type.GetProperties();
 
             foreach (var student1prop in student1Properties)
             {
@@ -27,14 +23,12 @@ namespace Reflection
                 {
                     if (student1prop.Name == student2prop.Name && student1prop.PropertyType.Name == student2prop.PropertyType.Name)
                     {
+                        //chuyển value từ student 1 sang student 2
                         student2prop.SetValue(student2, student1prop.GetValue(student1));
                         break;
                     }
                 }
             }
-
-
-
             Console.WriteLine("Value after changing");
             foreach (var prop in student2Properties)
             {
@@ -46,13 +40,13 @@ namespace Reflection
     {
         public int Id { get; set; } = 1;
 
-        public string FirstName { get; set; } = "A";
+        public string FirstName { get; set; } = "Trung";
 
-        public string LastName { get; set; } = "B";
+        public string LastName { get; set; } = "Vo";
 
-        public string Address { get; set; } = "C";
+        public string Address { get; set; } = "TienGiang";
 
-        public string City { get; set; } = "D";
+        public string City { get; set; } = "MyTho";
 
         public int Age { get; set; } = 25;
 
