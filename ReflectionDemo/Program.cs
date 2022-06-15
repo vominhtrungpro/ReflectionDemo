@@ -1,47 +1,99 @@
-﻿using AutoMapper;
-using System.Reflection;
-
-public class Student1
+﻿using System.Reflection;
+namespace Reflection
 {
-    public string Firstname { get; set; } = "Trung";
-    public string Lastname { get; set; } = "Vo";
-
-
-}
-
-public class Student2
-{
-    public string Firstname { get; set; }
-    public string Lastname { get; set; }
-
-}
-
-
-class Program
-{
-    static void Main(string[] args)
+    public class Program
     {
-        Student1 student1 = new Student1();
-        Student2 student2 = new Student2();
-        Type student1Type = student1.GetType();
-        Type student2Type = student2.GetType();
-
-        var student1Properties = student1Type.GetProperties();
-        var student2Properties = student2Type.GetProperties();
-
-        var commonproperties = from s1p in student1Properties
-                               join s2p in student2Properties on new { s1p.Name, s1p.PropertyType } equals
-                                   new { s2p.Name, s2p.PropertyType }
-                               select new { s1p, s2p };
-
-
-
-        foreach (var match in commonproperties)
+        private static void Main()
         {
-            match.s2p.SetValue(student2, match.s1p.GetValue(student1, null), null);
-        }
-        Console.WriteLine(student2.Firstname + " " + student2.Lastname);
+            Student1 student1 = new Student1();
 
+            Student2 student2 = new Student2();
+
+            Type student1Type = typeof(Student1);
+
+            PropertyInfo[] student1Properties = student1Type.GetProperties();
+
+            Type student2Type = typeof(Student2);
+
+            PropertyInfo[] student2Properties = student2Type.GetProperties();
+
+
+
+
+
+            foreach (var customerProperty in student1Properties)
+            {
+                foreach (var employeeProperty in student2Properties)
+                {
+                    if (customerProperty.Name == employeeProperty.Name && customerProperty.PropertyType.Name == employeeProperty.PropertyType.Name)
+                    {
+                        employeeProperty.SetValue(student2, customerProperty.GetValue(student1));
+                        break;
+                    }
+                }
+            }
+
+
+
+            Console.WriteLine("Value after changing");
+            foreach (var prop in student2Properties)
+            {
+                Console.WriteLine(prop.PropertyType.Name + " " + prop.Name + " " + prop.GetValue(student2));
+            }
+        }
+    }
+    public class Student1
+    {
+        public int Id { get; set; } = 1;
+
+        public string FirstName { get; set; } = "A";
+
+        public string LastName { get; set; } = "B";
+
+        public string Address { get; set; } = "C";
+
+        public string City { get; set; } = "D";
+
+        public int Age { get; set; } = 25;
+
+
+        public static void Method1()
+        {
+            Console.WriteLine("Hello World!");
+        }
+
+
+        public void Method2()
+        {
+            Console.WriteLine("Goodbye World!");
+        }
 
     }
+}
+public class Student2
+{
+    public int Id { get; set; } 
+
+    public string FirstName { get; set; } 
+
+    public string LastName { get; set; } 
+
+    public string Address { get; set; } 
+
+    public string City { get; set; } 
+
+    public int Age { get; set; } 
+
+
+    public static void Method1()
+    {
+        
+    }
+
+
+    public void Method2()
+    {
+        
+    }
+
 }
